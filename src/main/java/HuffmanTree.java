@@ -1,4 +1,3 @@
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -7,14 +6,13 @@ public class HuffmanTree {
     Map<String, Byte> originalTable = new HashMap<>();
     Map<Byte, Integer> frequencyMap;
 
-    int compressedBitsLength;
 
     byte[] fileBytes;
     HuffmanTree(byte[] fileBytes){
         this.fileBytes = fileBytes;
         this.frequencyMap = getFrequencyMap(fileBytes);
         int size = frequencyMap.size();
-        PriorityQueue<TreeNode> queue = new PriorityQueue<TreeNode>(size, new ImplementComparator());
+        PriorityQueue<TreeNode> queue = new PriorityQueue<>(size, new ImplementComparator());
 
 
         for(Map.Entry<Byte, Integer> entry : frequencyMap.entrySet()){

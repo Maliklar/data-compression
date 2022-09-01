@@ -14,7 +14,11 @@ import java.util.List;
 public class Main {
     public static HuffmanTree huffmanTree;
     public static final String CMD_COMPRESS = "compress";
+    //    javac -jar x.jar compress <filename> <output_name>
+
     public static final String CMD_UNCOMPRESS = "uncompress";
+    //    javac -jar x.jar uncompress <filename> <table_name>
+
 
     public static void main(String[] args) throws Exception {
         if( args.length == 3 && args[0].equals(CMD_COMPRESS)){
@@ -24,7 +28,9 @@ public class Main {
             uncompressFile(args[1], args[2]);
         }
         else{
-            System.out.println("Error");
+            System.out.println("Usage:");
+            System.out.println("compress <filename> <output_file_name>");
+            System.out.println("uncompress <filename> <table_name>");
         }
 
 
@@ -54,7 +60,7 @@ public class Main {
         System.out.println("Done.");
         System.out.println("original size: "+fileBytes.length+"bytes");
         System.out.println("compressed size: "+compressedBytes.length+"bytes");
-        System.out.println("File reduced in size by "+((float) compressedBytes.length/(float) fileBytes.length )*100+"%");
+        System.out.println("File size reduced by "+((((float) compressedBytes.length/(float) fileBytes.length )*100)-100)+"%");
     }
 
 
@@ -62,12 +68,10 @@ public class Main {
         FileInputStream fos = new FileInputStream(filePath);
         byte[] fileBytes = fos.readAllBytes();
 
-
         BitSet bitSet = BitSet.valueOf(fileBytes);
         List<Byte> bList = new ArrayList<>();
         StringBuilder code = new StringBuilder();
         FileData fileData = getFileTable(tablePath);
-        System.out.println(bitSet.length());
 
         for (int i = 0; i < bitSet.length()+1; i++) {
             if(fileData.table.containsKey(code.toString())){
@@ -78,11 +82,6 @@ public class Main {
                 code.append("1");
             else
                 code.append("0");
-
-//            float percent = (float) ((float) i/(float)bitSet.length()) * 100;
-//
-//            System.out.printf("\r %.2f%s",percent, "%");
-
         }
 
         byte[] uncompressed = ArrayUtils.toPrimitive(bList.toArray(new Byte[0]));
